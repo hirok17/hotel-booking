@@ -1,3 +1,5 @@
+import Categories from "../../components/Rooms/Categories/Categories"
+import Rooms from "../../components/Rooms/Rooms"
 import Container from "../../components/Shared/Container"
 
 
@@ -5,7 +7,8 @@ const Home = () => {
   return (
     <div>
       <Container>
-      <h1>Welcome to StayVista</h1>
+        <Categories></Categories>
+       <Rooms></Rooms>
       </Container>
       
     </div>
