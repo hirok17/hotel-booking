@@ -1,6 +1,7 @@
+import { Link } from "react-router-dom";
 
 const RoomCard = ({room}) => {
-    const {title, image, location, price}=room;
+    const {_id, title, image, location, price}=room;
     return (
         <div className='col-span-1 cursor-pointer group'>
             <div className='flex flex-col gap-2 w-full'>
@@ -34,7 +35,8 @@ const RoomCard = ({room}) => {
                         {/* <HeartButton /> */}
                     </div>
                 </div>
-                <div className='font-semibold text-lg'>{title}</div>
+                <Link to={`/room/${_id}`}><div className='font-semibold text-lg'>{title}</div></Link>
+                
                 <div className='font-semibold text-lg'>{location}</div>
                 <div className='font-light text-neutral-500'>
                     5 nights . June 19 - 26
