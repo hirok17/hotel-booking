@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useEffect } from "react";
 import { useState } from "react";
 import RoomCard from "./RoomCard";
@@ -15,7 +16,7 @@ const Rooms = () => {
 
     useEffect(() => {
         setLoading(true);
-        fetch('./rooms.json')
+        fetch('/rooms.json')
             .then(res => res.json())
             .then(data => {
                 if (category) {

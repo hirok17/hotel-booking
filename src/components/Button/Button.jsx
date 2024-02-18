@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 const Button = ({ label, onClick, disabled, outline, small, icon: Icon }) => {
   return (
     <button
@@ -37,4 +36,4 @@ const Button = ({ label, onClick, disabled, outline, small, icon: Icon }) => {
   )
 }
 
-export default Button
+export default Button;
