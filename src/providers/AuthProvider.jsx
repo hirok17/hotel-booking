@@ -12,6 +12,7 @@ import {
   updateProfile,
 } from 'firebase/auth'
 import app from '../firebase/firebase.config'
+import { clearToken } from '../api/auth'
  
 
 export const AuthContext = createContext(null)
@@ -42,8 +43,9 @@ const AuthProvider = ({ children }) => {
     return sendPasswordResetEmail(auth, email)
   }
 
-  const logOut = () => {
+  const logOut =async () => {
     setLoading(true)
+    await clearToken();
     return signOut(auth)
   }
 
