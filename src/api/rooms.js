@@ -19,3 +19,10 @@ export const saveRoom=async (roomData)=>{
     const {data}=await axiosSecure.post(`/rooms`, roomData);
     return data;
 }
+
+// delete room
+
+export const deleteRoom=async (id)=>{
+    const {data}=await axiosSecure.delete(`/room/${id}`);
+    return data;
+}

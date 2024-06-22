@@ -4,9 +4,11 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 
 const CategoryBox = ({ category, selected }) => {
     const { label, icon: Icon } = category;
+    // eslint-disable-next-line no-unused-vars
     const [params, setParams] =useSearchParams();
     const navigate =useNavigate();
-    params.get('category')
+//    const urls= params.get('category');
+//    console.log(params);    
   
     const handelClick =()=>{
         let currentQuery = {};

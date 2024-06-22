@@ -1,55 +1,22 @@
-import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import useAuth from '../../hooks/useAuth';
-import { deleteRoom, getHostroom } from '../../api/rooms';
-import RoomDataRow from '../../components/dashboard/RoomDataRow';
-import Swal from 'sweetalert2';
+import { useQuery } from '@tanstack/react-query';
+import Loader from '../../components/Shared/Loader';
+import { hostBooking } from '../../api/booking';
+import TableRow from '../../components/dashboard/Guest/TableRow';
 
-const MyListings = () => {
-    const {user}=useAuth();
-    const [rooms, setRooms]=useState([]); 
-    const email=user?.email;
-    console.log(email);
-
-    useEffect(()=>{
-        getHostroom(user?.email)
-        .then(data=>{
-            setRooms(data);
-            console.log(data);
-        })
-    },[user])
-    const deleteRoomData=(id)=>{
-      Swal.fire({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!"
-      }).then((result) => {
-        if (result.isConfirmed) {
-          deleteRoom(id)
-          .then(data=>{
-            if (data.deletedCount > 0){
-              Swal.fire({
-                title: "Deleted!",
-                text: "Your file has been deleted.",
-                icon: "success"
-              });
-            }
-            const remaining =rooms.filter(room=>room._id !==id)
-            setRooms(remaining);
-          })
-        
-        }
-      });
-    }
-
+const ManageBookings = () => {
+    const {user, loading} =useAuth();
+    const {data:bookings=[], isLoading} =useQuery({
+        queryKey:['bookings', user?.email],
+        enabled:!loading,
+        queryFn:async ()=> await hostBooking(user?.email),
+    })
+   if(isLoading) return <Loader></Loader>
   return (
     <>
       <Helmet>
-        <title>My Listings</title>
+        <title>Manage Bookings</title>
       </Helmet>
 
       <div className='container mx-auto px-4 sm:px-8'>
@@ -69,7 +36,7 @@ const MyListings = () => {
                       scope='col'
                       className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
                     >
-                      Location
+                      Guest Info
                     </th>
                     <th
                       scope='col'
@@ -93,19 +60,19 @@ const MyListings = () => {
                       scope='col'
                       className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
                     >
-                      Delete
-                    </th>
-                    <th
-                      scope='col'
-                      className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
-                    >
-                      Update
+                      Action
                     </th>
                   </tr>
                 </thead>
-                <tbody>{
-                  rooms?.map(room=><RoomDataRow key={room._id} room={room} deleteRoomData={deleteRoomData}></RoomDataRow>)
-                  }</tbody>
+                <tbody>
+                {
+                       bookings && bookings?.map(booking=><TableRow 
+                            key={booking._id}
+                            booking={booking}
+                            ></TableRow>)
+                    }
+                
+                </tbody>
               </table>
             </div>
           </div>
@@ -115,4 +82,4 @@ const MyListings = () => {
   )
 }
 
-export default MyListings
+export default ManageBookings

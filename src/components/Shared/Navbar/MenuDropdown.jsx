@@ -3,23 +3,31 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import useAuth from '../../../hooks/useAuth'
 import avatarImg from '../../../assets/images/placeholder.jpg'
+import useRole from '../../../hooks/useRole'
 
 const MenuDropdown = () => {
+ const { user, logOut } = useAuth();
+  const [role] =useRole();
   const [isOpen, setIsOpen] = useState(false);
-  const { user, logOut } = useAuth();
+
+
 
   return (
     <div className='relative'>
       <div className='flex flex-row items-center gap-3'>
         {/* Become A Host btn */}
         <div className='hidden md:block'>
-          <button className='disabled:cursor-not-allowed cursor-pointer hover:bg-neutral-100 py-3 px-4 text-sm font-semibold rounded-full  transition'>
+          {
+            (!user || !role || role === 'guest') && (
+              <button disabled={!user} className='disabled:cursor-not-allowed cursor-pointer hover:bg-neutral-100 py-3 px-4 text-sm font-semibold rounded-full  transition'>
             Host your home
           </button>
+            )
+          }
         </div>
         {/* Dropdown btn */}
         <div
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={()=>setIsOpen(!isOpen)}
           className='p-4 md:py-1 md:px-2 border-[1px] border-neutral-200 flex flex-row items-center gap-3 rounded-full cursor-pointer hover:shadow-md transition'
         >
           <AiOutlineMenu />
@@ -80,6 +88,7 @@ const MenuDropdown = () => {
           </div>
         </div>
       )}
+      {/* <HostModal modalHandler={modalHandler}></HostModal> */}
     </div>
   )
 }

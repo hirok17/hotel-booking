@@ -10,6 +10,13 @@ import { getRoomInfo } from '../api/rooms'
 import DashboardLayout from '../layouts/Dashboard'
 import AddRoom from '../layouts/Host/AddRoom'
 import MyListing from '../layouts/Host/MyListing'
+import HostRoute from './HostRoute'
+import AdminRoute from './AdminRoute'
+import ManageUsers from '../pages/admin/ManageUsers'
+import Profile from '../pages/common/Profile'
+import MyBooking from '../components/dashboard/Guest/MyBooking'
+import ManageBookings from '../layouts/Host/ManageBookings'
+import Statistics from '../pages/common/Statistics'
 
 export const router = createBrowserRouter([
   {
@@ -35,12 +42,32 @@ export const router = createBrowserRouter([
     element:<PrivetRoute><DashboardLayout></DashboardLayout></PrivetRoute>,
     children:[
       {
+        index:true,
+        element:(<PrivetRoute><Statistics></Statistics></PrivetRoute>)
+      },
+      {
         path:'add-room',
-        element:<PrivetRoute><AddRoom></AddRoom></PrivetRoute>
+        element:<PrivetRoute><HostRoute><AddRoom></AddRoom></HostRoute></PrivetRoute>
       },
       {
         path:'my-listing',
-        element:<PrivetRoute><MyListing></MyListing></PrivetRoute>
+        element:<PrivetRoute><HostRoute><MyListing></MyListing></HostRoute></PrivetRoute>
+      },
+      {
+        path:'manage-users',
+        element:<PrivetRoute><AdminRoute><ManageUsers></ManageUsers></AdminRoute></PrivetRoute>
+      },
+      {
+        path:'profile',
+        element:<PrivetRoute><Profile></Profile></PrivetRoute>
+      },
+      {
+        path:'my-booking',
+        element:<PrivetRoute><MyBooking></MyBooking></PrivetRoute>
+      },
+      {
+        path:'manage-bookings',
+        element:<PrivetRoute><HostRoute><ManageBookings></ManageBookings></HostRoute></PrivetRoute>
       }
     ]
   }
